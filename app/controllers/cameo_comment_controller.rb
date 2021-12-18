@@ -4,6 +4,10 @@ class CameoCommentController < ApplicationController
   def check
     projectId = Setting.plugin_cameo_comment['project_id']
     project = Project.find(projectId)
+    unless project
+      raise ::Unauthorized
+    end    
+    
     if User.current.allowed_to?(:view_issues, project, :global => true)
       respond_to do |format|
         format.json { render plain: '{ "status": "Success" }' }
