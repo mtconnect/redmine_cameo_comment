@@ -47,14 +47,17 @@ class CameoCommentController < ApplicationController
       url = "/model/index.html#{link}"
     else
       url = link
-    end      
+    end
+
+    comment = params[:comment]
+    comment = comment.join("\n") if Array === comment
     
     description = <<EOT
 # Topic: #{title}
 
 ## Comment
 
-#{params[:comment]}
+#{comment}
 
 ## Link to Model
 
