@@ -38,22 +38,19 @@ class CameoCommentController < ApplicationController
     unless tracker
       raise ::Unauthorized
     end
-    
-    title = params[:contentTitle].empty? ? 'General' : params[:contentTitle]          
-    subject = "#{title}: #{params[:commentSummary]}"
 
-    link = params[:url]
-    if link[0] == '#'
-      url = "/model/index.html#{link}"
-    else
-      url = link
-    end
+    p params
 
+    title = params[:title].gsub('| MTConnect SysML Model ', '')
+    summary = params[:summary].empty? ? 'General' : params[:summary]
+    subject = "#{title}: #{summary}"
+
+    url = params[:url]
     comment = params[:comment]
     comment = comment.join("\n") if Array === comment
     
     description = <<EOT
-# Topic: #{title}
+# Topic: #{summary}
 
 ## Comment
 
